@@ -1,0 +1,38 @@
+[
+  {
+    "description": "This is a high quality product",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    "price": 24,
+    "title": "High Quality Product"
+  },
+  {
+    "description": "This product is durable and long-lasting",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+    "price": 15,
+    "title": "Durable Product"
+  },
+  {
+    "description": "This product offers great value for money",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a3",
+    "price": 23,
+    "title": "Value Product"
+  },
+  {
+    "description": "This is a premium product with top-notch quality",
+    "id": "7567ec4b-b10c-48c5-9345-fc73348a80a1",
+    "price": 15,
+    "title": "Premium Product"
+  },
+  {
+    "description": "This product is eco-friendly and sustainable",
+    "id": "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
+    "price": 23,
+    "title": "Eco-friendly Product"
+  },
+  {
+    "description": "This product is user-friendly with easy setup",
+    "id": "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
+    "price": 15,
+    "title": "User-friendly Product"
+  }
+]
