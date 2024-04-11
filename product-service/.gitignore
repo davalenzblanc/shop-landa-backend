@@ -5,5 +5,31 @@ jspm_packages
 # Serverless directories
 .serverless
 
-# esbuild directories
-.esbuild
+# IDE files
+.idea
+.vscode
+
+# Compiled output
+dist
+build
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# documentation
+swagger/
+
+# local env files
+.env
+.env.local
+.env.development
+
+.webpack
+
+
+
+

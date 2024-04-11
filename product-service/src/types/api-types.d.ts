@@ -1,17 +1,8 @@
-// api types
 export interface Product {
-  count: number;
-  description: string;
   id: string;
+  name: string;
   price: number;
-  title: string;
+  description: string;
 }
-export interface Error {
-  message: string;
-}
-export interface ProductList {
-  data: Product[];
-}
-export interface ProductById {
-  data: Product;
-}
+
+export type ProductList = Product[];
