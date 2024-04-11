@@ -1,0 +1,1 @@
+export { getProductsListHandler } from './getProductsList';

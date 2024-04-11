@@ -18,7 +18,10 @@ service: product-service
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-frameworkVersion: "3"
+frameworkVersion: '3'
+
+plugins:
+  - serverless-webpack
 
 provider:
   name: aws
@@ -59,6 +62,12 @@ provider:
 #    - include-me-dir/**
 
 functions:
+  getProductsList:
+    handler: handler.getProductsList
+    events:
+      - httpApi:
+          method: get
+          path: /products
   hello:
     handler: handler.hello
 #    The following are a few example events you can configure
