@@ -16,7 +16,17 @@
   \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getProductsList: () => (/* binding */ getProductsList)\n/* harmony export */ });\n/* harmony import */ var _src_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/functions */ \"./src/functions/index.js\");\n\n\n\nconst getProductsList = _src_functions__WEBPACK_IMPORTED_MODULE_0__.getProductsListHandler;\n\n// module.exports.hello = async (event) => {\n//   return {\n//     statusCode: 200,\n//     body: JSON.stringify(\n//       {\n//         message: 'Go Serverless v1.0! Your function executed successfully!',\n//         input: event,\n//       },\n//       null,\n//       2\n//     ),\n//   };\n\n//   // Use this code if you don't use the http event with the LAMBDA-PROXY integration\n//   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };\n// };\n\n//# sourceURL=webpack://products-service/./handler.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getProductById: () => (/* binding */ getProductById),\n/* harmony export */   getProductsList: () => (/* binding */ getProductsList)\n/* harmony export */ });\n/* harmony import */ var _src_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/functions */ \"./src/functions/index.js\");\n\n\n\nconst getProductsList = _src_functions__WEBPACK_IMPORTED_MODULE_0__.getProductsListHandler;\nconst getProductById = _src_functions__WEBPACK_IMPORTED_MODULE_0__.getProductByIdHandler;\n\n//# sourceURL=webpack://products-service/./handler.js?");
+
+/***/ }),
+
+/***/ "./src/functions/getProductById.js":
+/*!*****************************************!*\
+  !*** ./src/functions/getProductById.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getProductByIdHandler: () => (/* binding */ getProductByIdHandler)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ \"./src/utils/index.js\");\n/* harmony import */ var _mocks_products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mocks/products */ \"./src/mocks/products.js\");\n\n\nconst getProductByIdHandler = async event => {\n  try {\n    const {\n      productId\n    } = event.pathParameters;\n    const product = _mocks_products__WEBPACK_IMPORTED_MODULE_1__.products.find(product => product.id === productId);\n    if (!product) {\n      return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.formatJSONResponse)({\n        message: 'Product not found'\n      }, 404);\n    }\n    return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.formatJSONResponse)({\n      product\n    });\n  } catch (error) {\n    return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.formatJSONResponse)({\n      message: error.message\n    }, 500);\n  }\n};\n\n//# sourceURL=webpack://products-service/./src/functions/getProductById.js?");
 
 /***/ }),
 
@@ -36,7 +46,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getProductsListHandler: () => (/* reexport safe */ _getProductsList__WEBPACK_IMPORTED_MODULE_0__.getProductsListHandler)\n/* harmony export */ });\n/* harmony import */ var _getProductsList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getProductsList */ \"./src/functions/getProductsList.js\");\n\n\n//# sourceURL=webpack://products-service/./src/functions/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getProductByIdHandler: () => (/* reexport safe */ _getProductById__WEBPACK_IMPORTED_MODULE_1__.getProductByIdHandler),\n/* harmony export */   getProductsListHandler: () => (/* reexport safe */ _getProductsList__WEBPACK_IMPORTED_MODULE_0__.getProductsListHandler)\n/* harmony export */ });\n/* harmony import */ var _getProductsList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getProductsList */ \"./src/functions/getProductsList.js\");\n/* harmony import */ var _getProductById__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getProductById */ \"./src/functions/getProductById.js\");\n\n\n\n//# sourceURL=webpack://products-service/./src/functions/index.js?");
 
 /***/ }),
 

@@ -4,3 +4,21 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+# IDE files
+.idea
+.vscode
+
+# Compiled output
+dist
+build
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# documentation
+swagger/
