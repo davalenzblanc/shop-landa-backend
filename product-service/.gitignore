@@ -22,3 +22,14 @@ Thumbs.db
 
 # documentation
 swagger/
+
+# local env files
+.env
+.env.local
+.env.development
+
+.webpack
+
+
+
+
