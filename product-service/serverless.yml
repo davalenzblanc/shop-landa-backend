@@ -11,6 +11,7 @@ provider:
   runtime: nodejs18.x
   region: us-east-1
   stage: ${opt:stage, 'dev'}
+  profile: default
   environment:
     PRODUCTS_TABLE: shop-products
 
