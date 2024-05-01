@@ -3,9 +3,7 @@ import { products } from '../mocks/products';
 
 export const getProductsListHandler = async () => {
   try {
-    return formatJSONResponse({
-      products,
-    });
+    return formatJSONResponse(products);
   } catch (error) {
     return formatJSONResponse(
       {

@@ -13,9 +13,7 @@ export const getProductByIdHandler = async (event) => {
         404
       );
     }
-    return formatJSONResponse({
-      product,
-    });
+    return formatJSONResponse(product);
   } catch (error) {
     return formatJSONResponse(
       {
