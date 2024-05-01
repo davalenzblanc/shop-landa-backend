@@ -7,13 +7,30 @@ const tableName = "shop-products";
 export const createProductHandler = async (event) => {
   try {
     const product = JSON.parse(event.body);
+
+    // validate product
+    if (
+      !product.id ||
+      !product.title ||
+      !product.description ||
+      !product.price
+    ) {
+      return formatJSONResponse(
+        {
+          message: "Product is not valid",
+        },
+        400
+      );
+    }
+
     const newProduct = {
       id: product.id,
       title: product.title,
       description: product.description,
       price: product.price,
-      count: product.count,
+      image: product.image,
     };
+
     await dynamodb
       .put({
         TableName: tableName,
