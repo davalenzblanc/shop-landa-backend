@@ -1,5 +1,5 @@
 service: product-service
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 plugins:
   - serverless-auto-swagger
@@ -13,7 +13,7 @@ provider:
 
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js'
+    webpackConfig: "webpack.config.js"
     includeModules: true
 
 functions:
@@ -23,9 +23,18 @@ functions:
       - httpApi:
           method: get
           path: /products
+          cors: true
   getProductById:
     handler: handler.getProductById
     events:
       - httpApi:
           method: get
           path: /products/{productId}
+          cors: true
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - httpApi:
+          method: post
+          path: /products
+          cors: true
