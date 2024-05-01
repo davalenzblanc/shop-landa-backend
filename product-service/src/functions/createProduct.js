@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import { formatJSONResponse } from "../utils";
+import { randomUUID } from "crypto";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = "shop-products";
@@ -9,12 +10,7 @@ export const createProductHandler = async (event) => {
     const product = JSON.parse(event.body);
 
     // validate product
-    if (
-      !product.id ||
-      !product.title ||
-      !product.description ||
-      !product.price
-    ) {
+    if (!product.title || !product.description || !product.price) {
       return formatJSONResponse(
         {
           message: "Product is not valid",
@@ -24,7 +20,7 @@ export const createProductHandler = async (event) => {
     }
 
     const newProduct = {
-      id: product.id,
+      id: randomUUID(),
       title: product.title,
       description: product.description,
       price: product.price,
