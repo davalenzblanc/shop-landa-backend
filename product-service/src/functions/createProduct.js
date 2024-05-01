@@ -1,10 +1,32 @@
+import AWS from "aws-sdk";
+import { formatJSONResponse } from "../utils";
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const tableName = "shop-products";
+
 export const createProductHandler = async (event) => {
-  // Parse the request body from the event object
-  const product = JSON.parse(event.body);
-
-  // Add the product to the products array
-  products.push(product);
-
-  // Return a 201 status code and the product in the response body
-  return formatJSONResponse(product, 201);
+  try {
+    const product = JSON.parse(event.body);
+    const newProduct = {
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      count: product.count,
+    };
+    await dynamodb
+      .put({
+        TableName: tableName,
+        Item: newProduct,
+      })
+      .promise();
+    return formatJSONResponse(newProduct, 201);
+  } catch (error) {
+    return formatJSONResponse(
+      {
+        message: error.message,
+      },
+      500
+    );
+  }
 };
