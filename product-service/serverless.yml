@@ -1,5 +1,7 @@
 service: product-service
-frameworkVersion: '3'
+frameworkVersion: "3"
+
+configValidationMode: error
 
 plugins:
   - serverless-auto-swagger
@@ -10,11 +12,46 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  profile: default
+  environment:
+    PRODUCTS_TABLE: shop-products
+    STOCKS_TABLE: shop-stocks
 
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js'
+    webpackConfig: "webpack.config.js"
     includeModules: true
+
+resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PRODUCTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+    StocksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.STOCKS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
 
 functions:
   getProductsList:
@@ -29,3 +66,9 @@ functions:
       - httpApi:
           method: get
           path: /products/{productId}
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - httpApi:
+          method: post
+          path: /products
