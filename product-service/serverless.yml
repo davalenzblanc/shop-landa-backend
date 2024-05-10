@@ -1,6 +1,8 @@
 service: product-service
 frameworkVersion: "3"
 
+configValidationMode: error
+
 plugins:
   - serverless-auto-swagger
   - serverless-webpack
@@ -58,18 +60,15 @@ functions:
       - httpApi:
           method: get
           path: /products
-          cors: true
   getProductById:
     handler: handler.getProductById
     events:
       - httpApi:
           method: get
           path: /products/{productId}
-          cors: true
   createProduct:
     handler: handler.createProduct
     events:
       - httpApi:
           method: post
           path: /products
-          cors: true

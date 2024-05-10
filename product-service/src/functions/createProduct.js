@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = "shop-products";
-const stockTableName = "shop-stock";
+const stockTableName = "shop-stocks";
 
 export const createProductHandler = async (event) => {
   try {
@@ -40,26 +40,37 @@ export const createProductHandler = async (event) => {
       },
     };
 
-    await dynamodb.batchWrite({
-      RequestItems: {
-        [tableName]: [
-          {
-            PutRequest: {
-              Item: newProductParams.Item,
+    await dynamodb
+      .batchWrite({
+        RequestItems: {
+          [tableName]: [
+            {
+              PutRequest: {
+                Item: newProductParams.Item,
+              },
             },
-          },
-        ],
-        [stockTableName]: [
-          {
-            PutRequest: {
-              Item: newStockParams.Item,
+          ],
+          [stockTableName]: [
+            {
+              PutRequest: {
+                Item: newStockParams.Item,
+              },
             },
-          },
-        ],
-      },
-    });
+          ],
+        },
+      })
+      .promise();
 
-    return formatJSONResponse(newProduct, 201);
+    return formatJSONResponse(
+      {
+        id: newProductId,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        count: product.count || 0,
+      },
+      201
+    );
   } catch (error) {
     return formatJSONResponse(
       {
