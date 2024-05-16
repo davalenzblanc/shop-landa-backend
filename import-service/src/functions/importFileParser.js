@@ -1,7 +1,6 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { s3client } from "../libs/s3client";
+import { s3client } from "../clientS3.js";
 import csvParser from "csv-parser";
-import { get } from "lodash";
 
 export const importFileParser = async (event) => {
   try {
@@ -12,8 +11,18 @@ export const importFileParser = async (event) => {
       throw new Error("No records found in the event");
     }
 
-    const name = get(Records, "[0].s3.bucket.name");
-    const key = get(Records, "[0].s3.object.key");
+    if (
+      !Records ||
+      !Records[0] ||
+      !Records[0].s3 ||
+      !Records[0].s3.bucket ||
+      !Records[0].s3.object
+    ) {
+      throw new Error("Invalid event structure");
+    }
+
+    const name = Records[0].s3.bucket.name;
+    const key = Records[0].s3.object.key;
 
     if (!name || !key) {
       throw new Error("No name or key found in the event");
