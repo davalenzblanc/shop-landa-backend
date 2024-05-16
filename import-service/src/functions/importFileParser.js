@@ -1,6 +1,6 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { s3client } from "../libs/s3client";
 import csvParser from "csv-parser";
-import { s3client } from "../libs/s3Client.js";
 import { get } from "lodash";
 
 export const importFileParser = async (event) => {

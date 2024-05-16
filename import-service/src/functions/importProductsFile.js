@@ -1,5 +1,5 @@
 import { S3 } from "aws-sdk";
-import { clientS3 } from "../libs/clientS3";
+import { s3client } from "../libs/s3client";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 const bucket = process.env.BUCKET_NAME;
@@ -19,7 +19,7 @@ export const importProductsFile = async (event) => {
       Key: catalogPath,
     });
 
-    const signedUrl = await S3.getSignedUrl(clientS3, command, {
+    const signedUrl = await S3.getSignedUrl(s3client, command, {
       expiresIn: 3600,
     });
 
