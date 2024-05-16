@@ -1,0 +1,14 @@
+{
+  "name": "import-service",
+  "version": "1.0.0",
+  "description": "Import Service",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.577.0",
+    "@aws-sdk/s3-request-presigner": "^3.577.0",
+    "aws-sdk": "^2.1620.0",
+    "csv-parser": "^3.0.0",
+    "lodash": "^4.17.21"
+  },
+  "type": "module"
+}
