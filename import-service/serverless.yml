@@ -24,6 +24,8 @@ provider:
           Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
   environment:
     BUCKET_NAME: ${self:custom.bucketName}
+  httpApi:
+    cors: true
 
 functions:
   importProductsFile:
