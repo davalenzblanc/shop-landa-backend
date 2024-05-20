@@ -4,14 +4,15 @@ import { sqsClient } from "../sqsClient";
 export const sendMessageToQueue = async (message) => {
   try {
     const command = new SendMessageCommand({
-      QueueUrl: process.env.SQS_URL,
+      QueueUrl: process.env.QUEUE_URL,
       MessageBody: JSON.stringify(message),
       DelaySeconds: 0,
     });
 
     console.log(command, "command");
 
-    await sqsClient.send(command);
+    const result = await sqsClient.send(command);
+    console.log(result, "result");
 
     return {
       statusCode: 200,

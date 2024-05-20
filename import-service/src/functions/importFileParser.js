@@ -47,7 +47,12 @@ export const importFileParser = async (event) => {
       })
       .on("end", () => {
         console.log(parsedData);
+      })
+      .on("error", (error) => {
+        console.error("Error parsing file", error);
+        throw new Error(error);
       });
+
     return {
       statusCode: 200,
       headers: {
