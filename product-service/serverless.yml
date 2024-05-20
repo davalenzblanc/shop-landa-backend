@@ -1,4 +1,5 @@
 service: product-service
+useDotenv: true
 frameworkVersion: "3"
 
 configValidationMode: error
@@ -11,12 +12,14 @@ plugins:
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-east-1
+  region: sa-east-1
   stage: ${opt:stage, 'dev'}
   profile: default
   environment:
     PRODUCTS_TABLE: shop-products
     STOCKS_TABLE: shop-stocks
+    SNS_TOPIC_ARN:
+      Ref: createProductTopic
 
 custom:
   webpack:
@@ -53,6 +56,51 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
 
+    CatalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    ProductEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: ${env:EMAIL}
+        TopicArn:
+          Ref: createProductTopic
+    CatalogBatchItemsRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: catalogBatchItemsRole
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service: "lambda.amazonaws.com"
+              Action: "sts:AssumeRole"
+        Policies:
+          - PolicyName: catalogBatchItemsPolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Sid: PublishSNSMessage
+                  Effect: Allow
+                  Action: sns:Publish
+                  Resource:
+                    Ref: createProductTopic
+                - Sid: ReceiveDeleteMessages
+                  Effect: Allow
+                  Action:
+                    - sqs:ReceiveMessage
+                    - sqs:DeleteMessage
+                    - sqs:GetQueueAttributes
+                  Resource:
+                    Fn::GetAtt: [CatalogItemsQueue, Arn]
+
 functions:
   getProductsList:
     handler: handler.getProductsList
@@ -72,3 +120,11 @@ functions:
       - httpApi:
           method: post
           path: /products
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [CatalogItemsQueue, Arn]
+          batchSize: 5
+    role: CatalogBatchItemsRole
