@@ -1,6 +1,7 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { s3client } from "../clientS3.js";
 import csvParser from "csv-parser";
+import { sendMessageToQueue } from "../helpers/sendMessage.js";
 
 export const importFileParser = async (event) => {
   try {
@@ -33,18 +34,25 @@ export const importFileParser = async (event) => {
       Key: key,
     };
 
-    const s3Stream = s3client
+    const s3Stream = await s3client
       .send(new GetObjectCommand(s3Params))
       .createReadStream();
+
     const parsedData = [];
     s3Stream
       .pipe(csvParser())
-      .on("data", (data) => parsedData.push(data))
+      .on("data", async (data) => {
+        parsedData.push(data);
+        await sendMessageToQueue(data);
+      })
       .on("end", () => {
         console.log(parsedData);
       });
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({ message: "File parsed" }),
     };
   } catch (error) {

@@ -4,6 +4,8 @@ useDotenv: true
 
 custom:
   bucketName: ${env:BUCKET_NAME}
+  sqsQueueName: catalogItemsQueue
+  queueUrl: ${env:QUEUE_URL}
 
 provider:
   name: aws
@@ -24,6 +26,8 @@ provider:
           Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
   environment:
     BUCKET_NAME: ${self:custom.bucketName}
+    REGION: ${env:REGION}
+    QUEUE_URL: ${env:QUEUE_URL}
   httpApi:
     cors: true
 

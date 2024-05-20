@@ -11,5 +11,8 @@
     "csv-parser": "^3.0.0",
     "lodash": "^4.17.21"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
 }
