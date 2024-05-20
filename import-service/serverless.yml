@@ -30,6 +30,10 @@ provider:
     QUEUE_URL: ${env:QUEUE_URL}
   httpApi:
     cors: true
+    authorizers:
+      basicAuthorizer:
+        type: request
+        functionArn: arn:aws:lambda:sa-east-1:203381595786:function:authorization-service-dev-basicAuthorizer
 
 functions:
   importProductsFile:
@@ -38,6 +42,8 @@ functions:
       - httpApi:
           path: /import
           method: get
+          authorizer:
+            name: basicAuthorizer
 
   importFileParser:
     handler: handler.importFileParser

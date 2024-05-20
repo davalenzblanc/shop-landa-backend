@@ -46,6 +46,7 @@ export const importFileParser = async (event) => {
         await sendMessageToQueue(data);
       })
       .on("end", () => {
+        console.log("CSV file parsing finished.");
         console.log(parsedData);
       })
       .on("error", (error) => {
@@ -57,6 +58,7 @@ export const importFileParser = async (event) => {
       statusCode: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({ message: "File parsed" }),
     };
