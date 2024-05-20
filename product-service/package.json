@@ -15,5 +15,8 @@
     "serverless-offline": "^13.3.3",
     "serverless-webpack": "^5.13.0",
     "webpack": "^5.91.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1623.0"
   }
 }
