@@ -1,0 +1,56 @@
+service: import-service
+frameworkVersion: "3"
+useDotenv: true
+
+custom:
+  bucketName: ${env:BUCKET_NAME}
+  sqsQueueName: catalogItemsQueue
+  queueUrl: ${env:QUEUE_URL}
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: default
+  region: sa-east-1
+  stage: "dev"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:ListBucket"
+          Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
+  environment:
+    BUCKET_NAME: ${self:custom.bucketName}
+    REGION: ${env:REGION}
+    QUEUE_URL: ${env:QUEUE_URL}
+  httpApi:
+    cors: true
+    authorizers:
+      basicAuthorizer:
+        type: request
+        functionArn: arn:aws:lambda:sa-east-1:203381595786:function:authorization-service-dev-basicAuthorizer
+
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - httpApi:
+          path: /import
+          method: get
+          authorizer:
+            name: basicAuthorizer
+
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: ${self:custom.bucketName}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
