@@ -1,1 +1,1 @@
-export { basicAuthorizer } from "./src/lambdas/basicAuthorizer.js";
+export { basicAuthorizer } from "./src/functions/basicAuthorizer.js";

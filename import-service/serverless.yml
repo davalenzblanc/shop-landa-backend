@@ -13,6 +13,12 @@ provider:
   profile: default
   region: sa-east-1
   stage: "dev"
+  httpApi:
+    cors: true
+    authorizers:
+      basicAuthorizer:
+        type: request
+        functionArn: arn:aws:lambda:sa-east-1:203381595786:function:authorization-service-dev-basicAuthorizer
   iam:
     role:
       statements:
@@ -24,16 +30,16 @@ provider:
           Action:
             - "s3:*"
           Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
+        - Effect: "Allow"
+          Action:
+            - "lambda:InvokeFunction"
+          Resource:
+            - "arn:aws:lambda:sa-east-1:203381595786:function:authorization-service-dev-basicAuthorizer"
+
   environment:
     BUCKET_NAME: ${self:custom.bucketName}
     REGION: ${env:REGION}
     QUEUE_URL: ${env:QUEUE_URL}
-  httpApi:
-    cors: true
-    authorizers:
-      basicAuthorizer:
-        type: request
-        functionArn: arn:aws:lambda:sa-east-1:203381595786:function:authorization-service-dev-basicAuthorizer
 
 functions:
   importProductsFile:

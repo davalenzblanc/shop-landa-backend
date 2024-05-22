@@ -5,6 +5,7 @@ import { sendMessageToQueue } from "../helpers/sendMessage.js";
 
 export const importFileParser = async (event) => {
   try {
+    console.log("starting");
     console.log("Received event:", JSON.stringify(event, null, 2));
 
     const { Records } = event;
